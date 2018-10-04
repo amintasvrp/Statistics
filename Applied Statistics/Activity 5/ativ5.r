@@ -30,15 +30,19 @@ propAmostrasContemValVerdadeiro = function(limInf, limSup, valVerdadeiro){
   return(result)
 }
 
-### Letra a
+### Letra A
 
 propMaisDe5 = quantMaioresQue5(populacao) / tamanhoPop
 mediaComodos = sum(populacao) / tamanhoPop
 
+
+### Proporção de domicílios com Mais de 5 Cômodos
 print(propMaisDe5)
+### Número Médio de Cômodos por Domicílio
 print(mediaComodos)
 
-### Letra b
+### Letra B
+
 tamanhoAmostra = 20
 
 limInfPropAmostral = c()
@@ -66,10 +70,18 @@ for(i in 1:10000){
 icPropAmostral = matrix(c(limInfPropAmostral, limSupPropAmostral), ncol = 2, nrow = 10000)
 icMediaAmostral = matrix(c(limInfMediaAmostral, limSupMediaAmostral), ncol = 2, nrow = 10000)
 
-### letra c
+### Intervalos de Confiança de p Amostral 
+print(icPropAmostral)
+### Intervalos de Confiança de X Amostral
+print(icMediaAmostral)
+
+### Letra C
 
 propIntervalosPropPop = propAmostrasContemValVerdadeiro(limInfPropAmostral, limSupPropAmostral, propMaisDe5) 
 propIntervalosMediaPop = propAmostrasContemValVerdadeiro(limInfMediaAmostral, limSupMediaAmostral, mediaComodos)
 
+
+### Proporção de Intervalos que Contém o Parâmetro p Verdadeiro
 print(propIntervalosPropPop)
+### Proporção de Intervalos que Contém o Parâmetro X Verdadeiro
 print(propIntervalosMediaPop)
