@@ -82,6 +82,23 @@ xE = 1 / sqrt(volume_de_trafego)
 yE = velocidade_media
 
 modeloE = lm(yE ~ xE)
-abline(modeloE, col="red")
+abline(modeloE)
 cor(xE,yE)
 anova(modeloE)
+
+regressaoA = 5836 / (5836 + 1226)
+print(regressaoA)
+
+regressaoB = 4537.4 / (4537.4 + 2524.6)
+print(regressaoB)
+
+regressaoC = 6911.0 / (6911.0 + 151.1)
+print(regressaoC)
+
+regressaoD = 6472.0 / (6472.0 + 590.1)
+print(regressaoD)
+
+regressaoE = 7044.1 / (7044.1 + 18.0)
+print(regressaoE)
+
+## Como a parte sistemática do caso proposto pela letra E possui a maior influência no modelo, concluímos que o caso da letra E consiste naquele que se ajusta melhor aos dados

@@ -1,0 +1,178 @@
+---
+title: "Relatório da Atividade 8"
+output: html_document
+---
+
+### Aluno: Amintas Victor Ramos Pereira
+### Professor: Alexsandro Bezerra Cavalcanti
+
+## Questão 1
+
+### Letra A
+
+```{r}
+# Questão 1
+# Letra a
+
+volume_de_trafego = c(3,3,5,5,10,10,15,15,20,20,25,25,30,30)
+velocidade_media = c(95.60, 93.80, 74.40, 74.80, 50.50, 51.50, 44.60, 42.40, 35.80, 38.70, 32.00, 32.00, 30.10, 29.10)
+
+plot(volume_de_trafego, velocidade_media)
+```
+
+### Letra B
+
+Aparentemente, a relação entre as variáveis "volume de tráfego" e "velocidade média" pode ser descrita a partir do gráfico de uma função semelhante a y = 1/|x|.
+
+### Letra C
+
+```{r}
+# Letra c
+
+volume_de_trafego = c(3,3,5,5,10,10,15,15,20,20,25,25,30,30)
+velocidade_media = c(95.60, 93.80, 74.40, 74.80, 50.50, 51.50, 44.60, 42.40, 35.80, 38.70, 32.00, 32.00, 30.10, 29.10)
+
+r = cor(volume_de_trafego, velocidade_media)
+print(r)
+
+```
+
+Verificamos através do coeficiente de correlação linear que as variáveis "volume de tráfego" e "velocidade média" possuem uma forte relação linear, de forma que a inclinação da reta é decrescente.
+
+### Letra D
+
+```{r}
+# Letra D
+
+volume_de_trafego = c(3,3,5,5,10,10,15,15,20,20,25,25,30,30)
+velocidade_media = c(95.60, 93.80, 74.40, 74.80, 50.50, 51.50, 44.60, 42.40, 35.80, 38.70, 32.00, 32.00, 30.10, 29.10)
+
+modelo_linear = lm(velocidade_media ~ volume_de_trafego)
+modelo_linear
+
+```
+
+Percebemos, através da saída do comando lm() que o modelo da relação linear entre as variáveis trabalhadas pode ser definido da seguinte forma:
+
+$Veloc.Média = 85.340 - 2.173 * Vol.Tráfego$
+
+### Letra E
+
+```{r}
+# Letra E
+
+volume_de_trafego = c(3,3,5,5,10,10,15,15,20,20,25,25,30,30)
+velocidade_media = c(95.60, 93.80, 74.40, 74.80, 50.50, 51.50, 44.60, 42.40, 35.80, 38.70, 32.00, 32.00, 30.10, 29.10)
+
+plot(volume_de_trafego, velocidade_media)
+abline(lm(velocidade_media ~ volume_de_trafego))
+```
+
+## Questão 1
+
+### Letra A
+
+```{r}
+# Letra A
+
+volume_de_trafego = c(3,3,5,5,10,10,15,15,20,20,25,25,30,30)
+velocidade_media = c(95.60, 93.80, 74.40, 74.80, 50.50, 51.50, 44.60, 42.40, 35.80, 38.70, 32.00, 32.00, 30.10, 29.10)
+
+xA = volume_de_trafego
+yA = velocidade_media
+
+modeloA = lm(yA ~ xA)
+
+plot(xA,yA)
+abline(modeloA)
+
+cor(xA,yA)
+
+summary(modeloA)
+```
+
+### Letra B
+
+```{r}
+# Letra B
+
+volume_de_trafego = c(3,3,5,5,10,10,15,15,20,20,25,25,30,30)
+velocidade_media = c(95.60, 93.80, 74.40, 74.80, 50.50, 51.50, 44.60, 42.40, 35.80, 38.70, 32.00, 32.00, 30.10, 29.10)
+
+xB = volume_de_trafego ** 2
+yB = velocidade_media
+
+modeloB = lm(yB ~ xB)
+
+plot(xB,yB)
+abline(modeloB)
+
+cor(xB,yB)
+
+summary(modeloB)
+```
+
+### Letra C
+
+```{r}
+# Letra C
+
+volume_de_trafego = c(3,3,5,5,10,10,15,15,20,20,25,25,30,30)
+velocidade_media = c(95.60, 93.80, 74.40, 74.80, 50.50, 51.50, 44.60, 42.40, 35.80, 38.70, 32.00, 32.00, 30.10, 29.10)
+
+xC = log10(volume_de_trafego)
+yC = velocidade_media
+
+modeloC = lm(yC ~ xC)
+
+plot(xC,yC)
+abline(modeloC)
+
+cor(xC,yC)
+
+summary(modeloC)
+```
+
+### Letra D
+
+```{r}
+# Letra D
+
+volume_de_trafego = c(3,3,5,5,10,10,15,15,20,20,25,25,30,30)
+velocidade_media = c(95.60, 93.80, 74.40, 74.80, 50.50, 51.50, 44.60, 42.40, 35.80, 38.70, 32.00, 32.00, 30.10, 29.10)
+
+xD = sqrt(volume_de_trafego)
+yD = velocidade_media
+
+modeloD = lm(yD ~ xD)
+
+plot(xD,yD)
+abline(modeloD)
+
+cor(xD,yD)
+
+summary(modeloD)
+```
+
+### Letra E
+
+```{r}
+# Letra E
+
+volume_de_trafego = c(3,3,5,5,10,10,15,15,20,20,25,25,30,30)
+velocidade_media = c(95.60, 93.80, 74.40, 74.80, 50.50, 51.50, 44.60, 42.40, 35.80, 38.70, 32.00, 32.00, 30.10, 29.10)
+
+xE = 1 / sqrt(volume_de_trafego)
+yE = velocidade_media
+
+modeloE = lm(yE ~ xE)
+
+plot(xE, yE)
+abline(modeloE)
+
+cor(xE,yE)
+
+summary(modeloE)
+```
+
+Como a parte sistemática do caso proposto pela letra E possui a maior influência no modelo (R-squared), concluímos que o caso da letra E consiste naquele que se ajusta melhor aos dados.
