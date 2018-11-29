@@ -1,0 +1,188 @@
+---
+title: "Relatório da Atividade 9"
+output: html_document
+---
+### Aluno: Amintas Victor Ramos Pereira
+### Professor: Alexsandro Bezerra Cavalcanti
+
+## Questão 1
+### Letra A
+
+```{r}
+tempo <- c(195, 255, 195, 255, 225, 225, 225, 195, 255, 225, 225, 225, 225, 230)
+ganho <- c(1004, 1636, 852, 1506, 1272, 1270, 1269, 903, 1555, 1260, 1146, 1276, 1225, 1321)
+doseIons <- c(4, 4, 4.6, 4.6, 4.2, 4.1, 4.6, 4.3, 4.3, 4, 4.7, 4.3, 4.72, 4.3)
+
+plot(ganho~tempo)
+plot(ganho~doseIons)
+```
+
+### Letra B
+
+```{r}
+cor(ganho, tempo)
+cor(ganho, doseIons)
+```
+
+### Letra C
+
+```{r}
+modeloLinear1 <- lm(ganho~tempo)
+modeloLinear1
+
+plot(ganho~tempo)
+abline(modeloLinear1)
+
+summary(modeloLinear1)
+
+modeloLinear2 <- lm(ganho~doseIons)
+modeloLinear2
+
+plot(ganho~doseIons)
+abline(modeloLinear2)
+
+summary(modeloLinear2)
+
+modeloLinear3 <- lm(ganho~tempo+doseIons)
+modeloLinear3
+
+plot(fitted(modeloLinear3))
+abline(modeloLinear3)
+
+summary(modeloLinear3)
+```
+
+### Letra D
+
+Sabe-se que quanto maior o R2, que representa o quão bem o modelo prediz as respostas, maior capacidade preditiva o modelo possui. Dos três modelos acima, o que possui maior valor para R2 é o 3º, isto é, o que possui as duas variáveis: tempo e dose de Íons. Logo, o modelo que mais se ajustou aos dados foi o terceiro. 
+
+# Questão 2
+# Letra A
+
+```{r}
+# Constantes
+
+Indices_Observados = c(8.1,6.8,7.0,7.4,7.7,7.5,7.6,8.0)
+Num_Ataques = c(5,13,20,28,41,49,61,62)
+Duracao = c(118,132,119,153,91,118,132,105)
+
+# Matrizes
+Y = cbind(Indices_Observados)
+Y
+
+X = cbind(rep(1,8), Num_Ataques, Duracao)
+X
+```
+
+# Letra B
+
+```{r}
+beta_chapeu = solve(t(X) %*% X) %*% (t(X) %*% Y)
+beta_chapeu
+```
+
+# Letra C
+
+```{r}
+ajuste = lm(Indices_Observados ~ Num_Ataques + Duracao)
+ajuste
+```
+
+Reta obtida pelo beta chapéu:     
+$Y = 8.372602064 + 0.005095369 * Num.Ataques - 0.008576885 * Duração$ 
+
+Reta obtida pelo lm():            
+$Y = 8.372602 + 0.005095 * Num.Ataques - 0.008577 * Duração$
+
+# Letra D
+
+```{r}
+summary(ajuste)
+```
+
+Significância global: 
+Como $0.05 < 0.5158$, então não rejeitamos a hipótese H0, a qual consiste que os estimadores beta são iguais a zero (ou seja, a matriz beta chapéu é uma matriz nula).
+
+Significância individual: 
+Como $0.01 < 0.5693$ e $0.01 < 0.4179$, então não rejeitamos a hipótese H0.
+
+Como square-R possui valor baixo, consideramos o modelo pouco ajustado.
+
+# Letra E
+
+```{r}
+Indice_Previsto = 8.372602 + 0.005095 * 25 - 0.008577 * 100
+Indice_Previsto
+```
+
+# Letra F 
+
+```{r}
+# Gráficos Q-Q Plot
+qqplot(Num_Ataques, residuals(ajuste), xlab="Num.Ataques",ylab="Resíduos")
+qqplot(Duracao, residuals(ajuste), xlab="Duração",ylab="Resíduos")
+
+# Gráfico de Envelope
+
+fit.model <- ajuste
+par(mfrow=c(1,1))
+X <- model.matrix(fit.model)
+n <- nrow(X)
+p <- ncol(X)
+H <- X%*%solve(t(X)%*%X)%*%t(X)
+h <- diag(H)
+si <- lm.influence(fit.model)$sigma
+r <- resid(fit.model)
+tsi <- r/(si*sqrt(1-h))
+
+ident <- diag(n)
+epsilon <- matrix(0,n,100)
+e <- matrix(0,n,100)
+e1 <- numeric(n)
+e2 <- numeric(n)
+
+for(i in 1:100){
+  epsilon[,i] <- rnorm(n,0,1)
+  e[,i] <- (ident - H)%*%epsilon[,i]
+  u <- diag(ident - H)
+  e[,i] <- e[,i]/sqrt(u)
+  e[,i] <- sort(e[,i]) }
+
+for(i in 1:n){
+  eo <- sort(e[i,])
+  e1[i] <- (eo[2]+eo[3])/2
+  e2[i] <- (eo[97]+eo[98])/2 }
+
+med <- apply(e,1,mean)
+faixa <- range(tsi,e1,e2)
+
+par(pty="s")
+qqnorm(tsi,xlab="Percentil da N(0,1)",
+       ylab="Residuo Studentizado", ylim=faixa, pch=16, main="")
+par(new=TRUE)
+qqnorm(e1,axes=F,xlab="",ylab="",type="l",ylim=faixa,lty=1, main="")
+par(new=TRUE)
+qqnorm(e2,axes=F,xlab="",ylab="", type="l",ylim=faixa,lty=1, main="")
+par(new=TRUE)
+qqnorm(med,axes=F,xlab="",ylab="",type="l",ylim=faixa,lty=2, main="")
+
+# Teste de Kolmogorv-Smirnov
+
+ks.test(residuals(ajuste), "pnorm")
+```
+
+Como p-valor(0.3657) > 0.05, percebemos que os resíduos seguem distribuição normal.
+
+```{r}
+# Homocedasticidade
+
+plot(Num_Ataques, residuals(ajuste),xlab="Num.Ataques",ylab="Resíduos")
+abline(h=0)
+
+plot(Duracao, residuals(ajuste),xlab="Duração",ylab="Resíduos")
+abline(h=0)
+```
+
+Devido ao comportamento observado no gráfico $Num.Ataques X Resíduos$, percebemos indícios que podem nos levar à rejeição de homocedasticidade do modelo.
+
+
